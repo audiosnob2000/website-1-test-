@@ -1,179 +1,192 @@
-/* FORMA Studio — Interactions */
-
 (function () {
   'use strict';
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── Custom Cursor ── */
-  const cursor = document.querySelector('.cursor');
-  const cursorDot = document.querySelector('.cursor__dot');
-  const cursorRing = document.querySelector('.cursor__ring');
+  /* ── Waveform generator ──
+     Builds a row of SVG bars in the hero background that simulate
+     an audio waveform — purely decorative. */
+  (function buildWaveform() {
+    const container = document.querySelector('.hero__waveform');
+    if (!container) return;
 
-  if (cursor && window.matchMedia('(hover: hover)').matches) {
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
-    let raf;
+    const barCount = Math.floor(window.innerWidth / 8);
+    const frag = document.createDocumentFragment();
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
-    });
-
-    function animateCursor() {
-      ringX += (mouseX - ringX) * 0.14;
-      ringY += (mouseY - ringY) * 0.14;
-      cursorRing.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
-      raf = requestAnimationFrame(animateCursor);
+    for (let i = 0; i < barCount; i++) {
+      const bar = document.createElement('div');
+      // Pseudo-random heights that look like a real waveform
+      const seed = Math.sin(i * 0.4) * 0.5 + Math.sin(i * 0.13) * 0.3 + Math.random() * 0.2;
+      const height = Math.max(4, Math.abs(seed) * 110);
+      bar.style.cssText = `
+        flex-shrink: 0;
+        width: 3px;
+        height: ${height}px;
+        background: rgba(26,86,232,0.6);
+        border-radius: 2px 2px 0 0;
+      `;
+      frag.appendChild(bar);
     }
-    raf = requestAnimationFrame(animateCursor);
+    container.appendChild(frag);
 
-    const hoverTargets = document.querySelectorAll('a, button, [tabindex="0"]');
-    hoverTargets.forEach((el) => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('cursor--hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('cursor--hover'));
-    });
-  }
-
-  /* ── Hero Parallax (signature element) ──
-     Each headline line moves at a different depth on mouse move,
-     creating a layered 3-D feel. Intentionally subtle. */
-  const heroLines = document.querySelectorAll('.hero__line[data-depth]');
-
-  if (!prefersReduced && heroLines.length) {
-    const hero = document.querySelector('.hero');
-    let heroRect = hero.getBoundingClientRect();
-
-    window.addEventListener('resize', () => {
-      heroRect = hero.getBoundingClientRect();
-    }, { passive: true });
-
-    document.addEventListener('mousemove', (e) => {
-      const cx = heroRect.left + heroRect.width  / 2;
-      const cy = heroRect.top  + heroRect.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-
-      heroLines.forEach((line) => {
-        const depth = parseFloat(line.dataset.depth) || 0.04;
-        const tx = dx * depth;
-        const ty = dy * depth;
-        line.style.transform = `translate(${tx}px, ${ty}px)`;
-      });
-    });
-
-    /* Reset on mouse leave */
-    hero.addEventListener('mouseleave', () => {
-      heroLines.forEach((line) => {
-        line.style.transition = 'transform 0.6s cubic-bezier(0.16,1,0.3,1)';
-        line.style.transform = '';
-        setTimeout(() => (line.style.transition = ''), 650);
-      });
-    });
-  }
-
-  /* ── Scroll-triggered reveal ── */
-  const revealEls = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry, i) => {
-          if (entry.isIntersecting) {
-            const el = entry.target;
-            const delay = el.dataset.delay || 0;
-            setTimeout(() => el.classList.add('visible'), delay);
-            io.unobserve(el);
-          }
+    // Animate bars subtly if motion is OK
+    if (!prefersReduced) {
+      let t = 0;
+      const bars = container.querySelectorAll('div');
+      function animateWave() {
+        t += 0.015;
+        bars.forEach((bar, i) => {
+          const wave = Math.sin(t + i * 0.3) * 0.25 + 0.75;
+          bar.style.transform = `scaleY(${wave})`;
+          bar.style.transformOrigin = 'bottom';
         });
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-    );
+        requestAnimationFrame(animateWave);
+      }
+      requestAnimationFrame(animateWave);
+    }
+  })();
 
-    /* Stagger siblings within the same parent */
-    const parents = new Set();
-    revealEls.forEach((el) => parents.add(el.parentElement));
-    parents.forEach((parent) => {
-      const children = [...parent.querySelectorAll('.reveal-up, .reveal-left, .reveal-right')];
-      children.forEach((child, i) => {
-        child.dataset.delay = i * 80;
+  /* ── Scroll reveal ── */
+  (function initReveal() {
+    const els = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('visible'));
+      return;
+    }
+
+    // Stagger siblings in the same parent
+    const parents = new Set([...els].map(el => el.parentElement));
+    parents.forEach(parent => {
+      const siblings = [...parent.querySelectorAll('.reveal-up, .reveal-left, .reveal-right')];
+      siblings.forEach((el, i) => { el.dataset.delay = i * 90; });
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const delay = parseInt(entry.target.dataset.delay) || 0;
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        io.unobserve(entry.target);
       });
-    });
+    }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
 
-    revealEls.forEach((el) => io.observe(el));
-  } else {
-    /* Fallback: show everything */
-    revealEls.forEach((el) => el.classList.add('visible'));
-  }
+    els.forEach(el => io.observe(el));
+  })();
 
-  /* ── Mobile nav ── */
-  const toggle = document.querySelector('.nav__toggle');
-  const mobileMenu = document.getElementById('mobileMenu');
+  /* ── Nav: shadow on scroll + hide/show on scroll direction ── */
+  (function initNav() {
+    const nav = document.querySelector('.nav');
+    if (!nav) return;
 
-  if (toggle && mobileMenu) {
-    toggle.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.toggle('open');
-      toggle.classList.toggle('open', isOpen);
-      toggle.setAttribute('aria-expanded', String(isOpen));
-      mobileMenu.setAttribute('aria-hidden', String(!isOpen));
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
+    let lastY = 0;
+    let ticking = false;
 
-    mobileMenu.querySelectorAll('.nav__mobile-link').forEach((link) => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      });
-    });
-  }
-
-  /* ── Nav: hide on scroll down, show on scroll up ── */
-  const nav = document.querySelector('.nav');
-  let lastScroll = 0;
-  let ticking = false;
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
       requestAnimationFrame(() => {
-        const current = window.scrollY;
-        if (current > 80) {
-          nav.style.transform = current > lastScroll
-            ? 'translateY(-100%)'
-            : 'translateY(0)';
-          nav.style.transition = 'transform 0.35s cubic-bezier(0.16,1,0.3,1)';
-        } else {
-          nav.style.transform = '';
+        const y = window.scrollY;
+        nav.classList.toggle('scrolled', y > 10);
+
+        if (!prefersReduced) {
+          if (y > 120 && y > lastY) {
+            nav.style.transform = 'translateY(-100%)';
+            nav.style.transition = 'transform 0.3s cubic-bezier(0.4,0,0.2,1)';
+          } else {
+            nav.style.transform = '';
+          }
         }
-        lastScroll = Math.max(0, current);
+
+        lastY = Math.max(0, y);
         ticking = false;
       });
       ticking = true;
-    }
-  }, { passive: true });
-
-  /* ── Scroll-depth color accent ── */
-  if (!prefersReduced) {
-    const root = document.documentElement;
-
-    window.addEventListener('scroll', () => {
-      const progress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-      // Subtle: gold accent opacity intensifies as you scroll deeper
-      const alpha = 0.04 + progress * 0.06;
-      root.style.setProperty('--scroll-glow', `rgba(200,169,110,${alpha})`);
     }, { passive: true });
-  }
+  })();
 
-  /* ── Work items: keyboard accessibility ── */
-  document.querySelectorAll('.work__item[tabindex="0"]').forEach((item) => {
-    item.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        item.click();
+  /* ── Mobile nav ── */
+  (function initMobileNav() {
+    const toggle = document.querySelector('.nav__toggle');
+    const menu   = document.getElementById('mobileMenu');
+    if (!toggle || !menu) return;
+
+    function close() {
+      menu.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      menu.setAttribute('aria-hidden', String(!isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    menu.querySelectorAll('.nav__mobile-link').forEach(link => {
+      link.addEventListener('click', close);
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && menu.classList.contains('open')) close();
+    });
+  })();
+
+  /* ── Booking form: client-side validation + fake submit ── */
+  (function initForm() {
+    const form    = document.getElementById('bookingForm');
+    const success = document.getElementById('formSuccess');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const required = form.querySelectorAll('[required]');
+      let valid = true;
+      required.forEach(field => {
+        field.classList.remove('form__input--error');
+        if (!field.value.trim()) {
+          field.classList.add('form__input--error');
+          valid = false;
+        }
+      });
+
+      if (!valid) {
+        const first = form.querySelector('.form__input--error');
+        if (first) first.focus();
+        return;
       }
+
+      const btn = form.querySelector('.form__submit');
+      btn.disabled = true;
+      btn.querySelector('.form__submit-text').textContent = 'Sending…';
+
+      // Simulate send (replace with real endpoint / Formspree / etc.)
+      setTimeout(() => {
+        form.style.opacity = '0';
+        form.style.transition = 'opacity 0.3s';
+        setTimeout(() => {
+          form.hidden = true;
+          if (success) {
+            success.hidden = false;
+          }
+        }, 300);
+      }, 1200);
+    });
+  })();
+
+  /* ── Smooth scroll for anchor links ── */
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: prefersReduced ? 'instant' : 'smooth' });
     });
   });
 
