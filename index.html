@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FORMA — A boutique design studio crafting brand identities, digital experiences, and visual systems for ambitious founders." />
+  <title>FORMA — Design Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" aria-label="Main navigation">
+    <a href="#" class="nav__logo" aria-label="FORMA home">FORMA</a>
+    <ul class="nav__links" role="list">
+      <li><a href="#work" class="nav__link">Work</a></li>
+      <li><a href="#studio" class="nav__link">Studio</a></li>
+      <li><a href="#process" class="nav__link">Process</a></li>
+      <li><a href="#contact" class="nav__link nav__link--cta">Let's talk</a></li>
+    </ul>
+    <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav__mobile" id="mobileMenu" aria-hidden="true">
+    <ul role="list">
+      <li><a href="#work" class="nav__mobile-link">Work</a></li>
+      <li><a href="#studio" class="nav__mobile-link">Studio</a></li>
+      <li><a href="#process" class="nav__mobile-link">Process</a></li>
+      <li><a href="#contact" class="nav__mobile-link">Let's talk</a></li>
+    </ul>
+  </div>
+
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-label="Hero">
+    <div class="hero__eyebrow reveal-up">
+      <span class="hero__tag">Est. 2019</span>
+      <span class="hero__rule" aria-hidden="true"></span>
+      <span class="hero__tag">London / New York</span>
+    </div>
+
+    <h1 class="hero__headline">
+      <span class="hero__line hero__line--1 reveal-up" data-depth="0.04">
+        <span class="hero__word" aria-label="We">We</span>
+      </span>
+      <span class="hero__line hero__line--2 reveal-up" data-depth="0.07">
+        <span class="hero__word" aria-label="shape">shape</span>
+      </span>
+      <span class="hero__line hero__line--3 reveal-up" data-depth="0.05">
+        <em>desire.</em>
+      </span>
+    </h1>
+
+    <div class="hero__footer">
+      <p class="hero__descriptor reveal-up">
+        Brand identity &amp; digital experience<br />
+        for the uncompromising.
+      </p>
+      <a href="#work" class="hero__scroll reveal-up" aria-label="Scroll to work">
+        <span class="hero__scroll-label">Selected work</span>
+        <span class="hero__scroll-arrow" aria-hidden="true">↓</span>
+      </a>
+    </div>
+
+    <div class="hero__counter reveal-up" aria-label="Project count">
+      <span class="hero__counter-num">47</span>
+      <span class="hero__counter-label">projects<br />delivered</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Brand Identity</span><span class="marquee__dot">·</span>
+      <span>Digital Experience</span><span class="marquee__dot">·</span>
+      <span>Visual Systems</span><span class="marquee__dot">·</span>
+      <span>Art Direction</span><span class="marquee__dot">·</span>
+      <span>Motion Design</span><span class="marquee__dot">·</span>
+      <span>Brand Identity</span><span class="marquee__dot">·</span>
+      <span>Digital Experience</span><span class="marquee__dot">·</span>
+      <span>Visual Systems</span><span class="marquee__dot">·</span>
+      <span>Art Direction</span><span class="marquee__dot">·</span>
+      <span>Motion Design</span><span class="marquee__dot">·</span>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section class="work" id="work" aria-label="Selected work">
+    <div class="work__header">
+      <h2 class="section-label reveal-up">Selected work</h2>
+    </div>
+
+    <div class="work__grid">
+
+      <article class="work__item work__item--large reveal-left" tabindex="0">
+        <div class="work__img-wrap">
+          <div class="work__img work__img--1" role="img" aria-label="Arkive project visual"></div>
+          <div class="work__overlay">
+            <span class="work__view">View project →</span>
+          </div>
+        </div>
+        <div class="work__meta">
+          <span class="work__index">01</span>
+          <div class="work__info">
+            <h3 class="work__title">Arkive</h3>
+            <p class="work__tags">Brand identity · Digital</p>
+          </div>
+          <span class="work__year">2024</span>
+        </div>
+      </article>
+
+      <article class="work__item work__item--small reveal-right" tabindex="0">
+        <div class="work__img-wrap">
+          <div class="work__img work__img--2" role="img" aria-label="Meridian project visual"></div>
+          <div class="work__overlay">
+            <span class="work__view">View project →</span>
+          </div>
+        </div>
+        <div class="work__meta">
+          <span class="work__index">02</span>
+          <div class="work__info">
+            <h3 class="work__title">Meridian</h3>
+            <p class="work__tags">Visual system · Motion</p>
+          </div>
+          <span class="work__year">2024</span>
+        </div>
+      </article>
+
+      <article class="work__item work__item--medium reveal-left" tabindex="0">
+        <div class="work__img-wrap">
+          <div class="work__img work__img--3" role="img" aria-label="Cove project visual"></div>
+          <div class="work__overlay">
+            <span class="work__view">View project →</span>
+          </div>
+        </div>
+        <div class="work__meta">
+          <span class="work__index">03</span>
+          <div class="work__info">
+            <h3 class="work__title">Cove</h3>
+            <p class="work__tags">Art direction · Web</p>
+          </div>
+          <span class="work__year">2023</span>
+        </div>
+      </article>
+
+      <article class="work__item work__item--medium reveal-right" tabindex="0">
+        <div class="work__img-wrap">
+          <div class="work__img work__img--4" role="img" aria-label="Solenne project visual"></div>
+          <div class="work__overlay">
+            <span class="work__view">View project →</span>
+          </div>
+        </div>
+        <div class="work__meta">
+          <span class="work__index">04</span>
+          <div class="work__info">
+            <h3 class="work__title">Solenne</h3>
+            <p class="work__tags">Brand identity · Print</p>
+          </div>
+          <span class="work__year">2023</span>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="work__all reveal-up">
+      <a href="#" class="btn-text">All projects <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- STUDIO -->
+  <section class="studio" id="studio" aria-label="About FORMA">
+    <div class="studio__layout">
+      <div class="studio__left">
+        <h2 class="section-label reveal-up">Studio</h2>
+        <div class="studio__img-wrap reveal-up">
+          <div class="studio__img" role="img" aria-label="FORMA studio workspace"></div>
+        </div>
+        <p class="studio__caption reveal-up">London, 2024</p>
+      </div>
+      <div class="studio__right">
+        <blockquote class="studio__statement reveal-up">
+          <p>We believe a brand is not a logo.<br />It is a&nbsp;<em>point of view</em>&nbsp;made&nbsp;visible.</p>
+        </blockquote>
+        <div class="studio__body reveal-up">
+          <p>FORMA is a seven-person studio working at the intersection of strategy and craft. We take on a limited number of projects each year — not because we have to, but because depth is the work.</p>
+          <p>Our clients range from pre-launch founders to established names who want to mean something again.</p>
+        </div>
+        <div class="studio__awards reveal-up" aria-label="Recognition">
+          <div class="studio__award">
+            <span class="studio__award-org">Awwwards</span>
+            <span class="studio__award-detail">SOTD × 12</span>
+          </div>
+          <div class="studio__award">
+            <span class="studio__award-org">D&amp;AD</span>
+            <span class="studio__award-detail">Wood Pencil 2023</span>
+          </div>
+          <div class="studio__award">
+            <span class="studio__award-org">FWA</span>
+            <span class="studio__award-detail">FOTM 2024</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process" aria-label="Our process">
+    <h2 class="section-label reveal-up">How we work</h2>
+    <div class="process__steps">
+      <div class="process__step reveal-up">
+        <span class="process__num">01</span>
+        <div class="process__content">
+          <h3 class="process__title">Immersion</h3>
+          <p class="process__desc">We spend two weeks inside your world before we draw a line. Competitive analysis, audience research, positioning — the foundation that makes everything else inevitable.</p>
+        </div>
+      </div>
+      <div class="process__step reveal-up">
+        <span class="process__num">02</span>
+        <div class="process__content">
+          <h3 class="process__title">Diverge</h3>
+          <p class="process__desc">Three distinct directions — not variations of the same idea. Each is argued on its own terms. We present them as propositions, not options.</p>
+        </div>
+      </div>
+      <div class="process__step reveal-up">
+        <span class="process__num">03</span>
+        <div class="process__content">
+          <h3 class="process__title">Converge</h3>
+          <p class="process__desc">One direction is chosen and made undeniable. Every detail is pressure-tested: does it work at 8px? At 8 meters? In ten years?</p>
+        </div>
+      </div>
+      <div class="process__step reveal-up">
+        <span class="process__num">04</span>
+        <div class="process__content">
+          <h3 class="process__title">System</h3>
+          <p class="process__desc">A brand guide is a promise of consistency. We deliver a living system — documented, extensible, and genuinely usable by your team.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact" aria-label="Contact FORMA">
+    <div class="contact__inner">
+      <p class="contact__eyebrow reveal-up">Next availability: Q3 2025</p>
+      <h2 class="contact__headline reveal-up">Start a<br /><em>conversation.</em></h2>
+      <div class="contact__actions reveal-up">
+        <a href="mailto:hello@forma.studio" class="btn-primary">hello@forma.studio</a>
+        <p class="contact__note">We respond within 48 hours.</p>
+      </div>
+    </div>
+    <div class="contact__bg-text" aria-hidden="true">FORMA</div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" aria-label="Footer">
+    <div class="footer__inner">
+      <div class="footer__left">
+        <span class="footer__logo">FORMA</span>
+        <p class="footer__tagline">Design that means something.</p>
+      </div>
+      <nav class="footer__nav" aria-label="Footer navigation">
+        <ul role="list">
+          <li><a href="#work">Work</a></li>
+          <li><a href="#studio">Studio</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer__social" aria-label="Social links">
+        <a href="#" aria-label="Instagram">Ig</a>
+        <a href="#" aria-label="LinkedIn">Li</a>
+        <a href="#" aria-label="Twitter / X">X</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 FORMA Studio Ltd. All rights reserved.</p>
+      <p class="footer__legal"><a href="#">Privacy</a> · <a href="#">Terms</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
