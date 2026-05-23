@@ -135,13 +135,16 @@
     });
   })();
 
-  /* ── Booking form: client-side validation + fake submit ── */
+  /* ── Booking form: client-side validation + Formspree submission ── */
   (function initForm() {
     const form    = document.getElementById('bookingForm');
     const success = document.getElementById('formSuccess');
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
+    // Formspree endpoint — sign up at formspree.io and replace REPLACE_ME with your form ID
+    const FORMSPREE_URL = 'https://formspree.io/f/REPLACE_ME';
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const required = form.querySelectorAll('[required]');
@@ -164,17 +167,30 @@
       btn.disabled = true;
       btn.querySelector('.form__submit-text').textContent = 'Sending…';
 
-      // Simulate send (replace with real endpoint / Formspree / etc.)
-      setTimeout(() => {
-        form.style.opacity = '0';
-        form.style.transition = 'opacity 0.3s';
-        setTimeout(() => {
-          form.hidden = true;
-          if (success) {
-            success.hidden = false;
-          }
-        }, 300);
-      }, 1200);
+      try {
+        const response = await fetch(FORMSPREE_URL, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          form.style.opacity = '0';
+          form.style.transition = 'opacity 0.3s';
+          setTimeout(() => {
+            form.hidden = true;
+            if (success) success.hidden = false;
+          }, 300);
+        } else {
+          btn.disabled = false;
+          btn.querySelector('.form__submit-text').textContent = 'Send Inquiry';
+          alert('Something went wrong. Please email us directly at JJsoundNY@gmail.com');
+        }
+      } catch {
+        btn.disabled = false;
+        btn.querySelector('.form__submit-text').textContent = 'Send Inquiry';
+        alert('Something went wrong. Please email us directly at JJsoundNY@gmail.com');
+      }
     });
   })();
 
