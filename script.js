@@ -142,7 +142,7 @@
     if (!form) return;
 
     // Formspree endpoint — sign up at formspree.io and replace REPLACE_ME with your form ID
-    const FORMSPREE_URL = 'https://formspree.io/f/REPLACE_ME';
+    const FORMSPREE_URL = 'https://formspree.io/f/mkoezpvb';
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
