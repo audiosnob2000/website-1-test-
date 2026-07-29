@@ -449,6 +449,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: #fff;
   letter-spacing: -0.02em;
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 .hero__stat-plus {
   font-size: 0.7em;
