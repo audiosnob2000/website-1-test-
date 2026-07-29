@@ -670,6 +670,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .gallery__item:hover .gallery__placeholder { transform: scale(1.03); }
 
+.gallery__img {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease-out);
+}
+.gallery__item:hover .gallery__img { transform: scale(1.03); }
+
 .gallery__placeholder::before {
   content: '';
   position: absolute;
