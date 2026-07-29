@@ -452,7 +452,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-variant-numeric: tabular-nums lining-nums;
 }
 .hero__stat-plus {
-  font-size: 0.7em;
+  font-size: 1em;
   color: var(--blue);
 }
 .hero__stat-label {
