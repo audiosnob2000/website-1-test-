@@ -1,5 +1,5 @@
 /* =============================================
-   J&J Sound — Stylesheet
+   JJ Sound — Stylesheet
    Palette: #0F1117 dark · #F7F7F5 light · #1A56E8 accent
    Type: Syne (display) · Inter (body)
    ============================================= */
@@ -561,7 +561,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   text-align: center;
 }
 
-/* ── Why J&J ── */
+/* ── Why JJ ── */
 .why {
   background: var(--dark);
   padding: clamp(80px, 10vw, 120px) var(--pad);
