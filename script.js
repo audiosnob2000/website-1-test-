@@ -3,62 +3,62 @@
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── Waveform generator ──
-     Builds a row of SVG bars in the hero background that simulate
-     an audio waveform — purely decorative. */
-  (function buildWaveform() {
-    const container = document.querySelector('.hero__waveform');
+  /* ── Equalizer generator ──
+     Builds the 32-bar strip at the bottom of the hero — purely decorative. */
+  (function buildEqualizer() {
+    const container = document.querySelector('.hero__eq');
     if (!container) return;
 
-    const barCount = Math.floor(window.innerWidth / 8);
+    const n = 32;
     const frag = document.createDocumentFragment();
-
-    for (let i = 0; i < barCount; i++) {
+    for (let i = 0; i < n; i++) {
       const bar = document.createElement('div');
-      // Pseudo-random heights that look like a real waveform
-      const seed = Math.sin(i * 0.4) * 0.5 + Math.sin(i * 0.13) * 0.3 + Math.random() * 0.2;
-      const height = Math.max(4, Math.abs(seed) * 110);
-      bar.style.cssText = `
-        flex-shrink: 0;
-        width: 3px;
-        height: ${height}px;
-        background: rgba(26,86,232,0.6);
-        border-radius: 2px 2px 0 0;
-      `;
+      const h = Math.round(22 + Math.abs(Math.sin(i * 0.7)) * 58 + (i % 5) * 4);
+      bar.className = 'hero__eq-bar';
+      bar.style.height = h + '%';
+      if (!prefersReduced) {
+        const dur = (1.1 + (i % 7) * 0.15).toFixed(2);
+        const delay = ((i % 9) * 0.09).toFixed(2);
+        bar.style.animation = `eqPulse ${dur}s ease-in-out infinite`;
+        bar.style.animationDelay = delay + 's';
+      }
       frag.appendChild(bar);
     }
     container.appendChild(frag);
+  })();
 
-    // Animate bars subtly if motion is OK
-    if (!prefersReduced) {
-      let t = 0;
-      const bars = container.querySelectorAll('div');
-      function animateWave() {
-        t += 0.015;
-        bars.forEach((bar, i) => {
-          const wave = Math.sin(t + i * 0.3) * 0.25 + 0.75;
-          bar.style.transform = `scaleY(${wave})`;
-          bar.style.transformOrigin = 'bottom';
-        });
-        requestAnimationFrame(animateWave);
+  /* ── Headline word reveal ──
+     Splits the hero H1 into words so each can fade/slide in staggered on load. */
+  (function splitHeadline() {
+    const el = document.getElementById('heroHeadline');
+    if (!el) return;
+    const words = el.textContent.trim().split(/\s+/);
+    el.textContent = '';
+    words.forEach((word, i) => {
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = word;
+      if (!prefersReduced) {
+        span.style.animation = `wordIn 0.6s cubic-bezier(.16,1,.3,1) ${(0.1 + i * 0.06).toFixed(2)}s both`;
       }
-      requestAnimationFrame(animateWave);
-    }
+      el.appendChild(span);
+      el.appendChild(document.createTextNode(' '));
+    });
   })();
 
   /* ── Scroll reveal ── */
   (function initReveal() {
-    const els = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+    const els = document.querySelectorAll('.reveal-up');
+    if (!els.length) return;
 
-    if (!('IntersectionObserver' in window)) {
+    if (prefersReduced || !('IntersectionObserver' in window)) {
       els.forEach(el => el.classList.add('visible'));
       return;
     }
 
-    // Stagger siblings in the same parent
     const parents = new Set([...els].map(el => el.parentElement));
     parents.forEach(parent => {
-      const siblings = [...parent.querySelectorAll('.reveal-up, .reveal-left, .reveal-right')];
+      const siblings = [...parent.querySelectorAll('.reveal-up')];
       siblings.forEach((el, i) => { el.dataset.delay = i * 90; });
     });
 
@@ -69,39 +69,110 @@
         setTimeout(() => entry.target.classList.add('visible'), delay);
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+    }, { threshold: 0.15, rootMargin: '0px 0px -32px 0px' });
 
     els.forEach(el => io.observe(el));
   })();
 
-  /* ── Nav: shadow on scroll + hide/show on scroll direction ── */
-  (function initNav() {
-    const nav = document.querySelector('.nav');
-    if (!nav) return;
+  /* ── Count-up stats ── */
+  (function initCounters() {
+    const counters = document.querySelectorAll('.hero__stat-num');
+    if (!counters.length) return;
 
-    let lastY = 0;
+    counters.forEach(el => {
+      const target = parseInt(el.dataset.target, 10) || 0;
+      const suffix = el.dataset.suffix || '';
+
+      if (prefersReduced || !('IntersectionObserver' in window)) {
+        el.textContent = target + suffix;
+        return;
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const start = performance.now();
+          const dur = 1200;
+          function tick(now) {
+            const p = Math.min(1, (now - start) / dur);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.round(eased * target) + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.4 });
+      io.observe(el);
+    });
+  })();
+
+  /* ── Hero spotlight (cursor-follow glow) ── */
+  (function initSpotlight() {
+    const hero = document.getElementById('hero');
+    const spotlight = document.getElementById('heroSpotlight');
+    if (!hero || !spotlight) return;
+
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      spotlight.style.transform = `translate(${x - 300}px, ${y - 300}px)`;
+      spotlight.style.opacity = '1';
+    });
+    hero.addEventListener('mouseleave', () => {
+      spotlight.style.opacity = '0';
+    });
+  })();
+
+  /* ── Magnetic buttons ── */
+  (function initMagnetButtons() {
+    const buttons = document.querySelectorAll('.js-magnet');
+    if (!buttons.length || prefersReduced) return;
+
+    buttons.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) * 0.25;
+        const y = (e.clientY - rect.top - rect.height / 2) * 0.35;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0,0)';
+      });
+    });
+  })();
+
+  /* ── Scroll progress bar + orb parallax ──
+     One batched, rAF-throttled scroll handler drives both. */
+  (function initScrollFx() {
+    const progress = document.getElementById('progress');
+    const orb1 = document.getElementById('orb1');
+    const orb2 = document.getElementById('orb2');
+    if (!progress && !orb1 && !orb2) return;
+
     let ticking = false;
+    function update() {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+      if (progress) progress.style.width = pct + '%';
+
+      if (!prefersReduced) {
+        const y = doc.scrollTop;
+        if (orb1) orb1.style.transform = `translateY(${y * 0.12}px)`;
+        if (orb2) orb2.style.transform = `translateY(${-y * 0.08}px)`;
+      }
+      ticking = false;
+    }
 
     window.addEventListener('scroll', () => {
       if (ticking) return;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        nav.classList.toggle('scrolled', y > 10);
-
-        if (!prefersReduced) {
-          if (y > 120 && y > lastY) {
-            nav.style.transform = 'translateY(-100%)';
-            nav.style.transition = 'transform 0.3s cubic-bezier(0.4,0,0.2,1)';
-          } else {
-            nav.style.transform = '';
-          }
-        }
-
-        lastY = Math.max(0, y);
-        ticking = false;
-      });
       ticking = true;
+      requestAnimationFrame(update);
     }, { passive: true });
+
+    update();
   })();
 
   /* ── Mobile nav ── */
