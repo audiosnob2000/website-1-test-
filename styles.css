@@ -293,7 +293,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 64px var(--pad) 0;
+  padding: 0 var(--pad) 0;
   overflow: hidden;
 }
 
