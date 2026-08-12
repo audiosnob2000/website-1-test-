@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="J&J Sound — Professional live sound engineering and PA system for bands and events on Long Island, NY." />
+  <title>J&J Sound — Live Sound Engineering · Long Island, NY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+/* =============================================
+   J&J Sound — Stylesheet
+   Palette: #0F1117 dark · #F7F7F5 light · #1A56E8 accent
+   Type: Syne (display) · Inter (body)
+   ============================================= */
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --dark:       #0F1117;
+  --dark-2:     #1A1D27;
+  --dark-3:     #252833;
+  --light:      #F7F7F5;
+  --white:      #FFFFFF;
+  --blue:       #1A56E8;
+  --blue-dark:  #1344C0;
+  --blue-glow:  rgba(26,86,232,0.15);
+  --text:       #0F0F0F;
+  --text-2:     #4B5563;
+  --text-3:     #9CA3AF;
+  --border:     #E5E4DF;
+  --border-dark: rgba(255,255,255,0.08);
+
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --nav-h: 68px;
+  --max-w: 1200px;
+  --pad:   clamp(20px, 5vw, 64px);
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--light);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+img { display: block; width: 100%; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ── Scroll reveal ── */
+.reveal-up,
+.reveal-left,
+.reveal-right {
+  opacity: 0;
+  transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
+}
+.reveal-up    { transform: translateY(28px); }
+.reveal-left  { transform: translateX(-28px); }
+.reveal-right { transform: translateX(28px); }
+.reveal-up.visible,
+.reveal-left.visible,
+.reveal-right.visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up, .reveal-left, .reveal-right {
+    opacity: 1; transform: none; transition: none;
+  }
+}
+
+/* ── Layout helpers ── */
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--text-2);
+  max-width: 520px;
+  margin-top: 16px;
+  line-height: 1.7;
+}
+
+.section-header {
+  margin-bottom: clamp(40px, 6vw, 72px);
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 14px 28px;
+  border-radius: 4px;
+  transition: background 0.2s, transform 0.2s var(--ease-out), box-shadow 0.2s;
+}
+.btn-primary:hover, .btn-primary:focus-visible {
+  background: var(--blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26,86,232,0.3);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: rgba(255,255,255,0.8);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.btn-ghost:hover, .btn-ghost:focus-visible {
+  border-color: rgba(255,255,255,0.5);
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 13px 27px;
+  border-radius: 4px;
+  border: 1.5px solid var(--text);
+  transition: background 0.2s, color 0.2s;
+}
+.btn-outline:hover, .btn-outline:focus-visible {
+  background: var(--text);
+  color: var(--white);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ── Navigation ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: var(--nav-h);
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.3s;
+}
+.nav.scrolled {
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+
+.nav__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.nav__logo {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.nav__logo-jj {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--blue);
+}
+.nav__logo-sound {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav__link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-2);
+  padding: 8px 14px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav__link:hover { color: var(--text); background: var(--light); }
+
+.nav__cta {
+  display: inline-flex;
+  align-items: center;
+  background: var(--blue);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-display);
+  padding: 9px 20px;
+  border-radius: 4px;
+  margin-left: 8px;
+  transition: background 0.2s, transform 0.2s var(--ease-out);
+}
+.nav__cta:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+}
+.nav__toggle span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.3s var(--ease-out), opacity 0.3s;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav__mobile {
+  position: fixed;
+  inset: 0;
+  top: var(--nav-h);
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(12px);
+  z-index: 199;
+  padding: 32px var(--pad);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+.nav__mobile.open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.nav__mobile ul {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav__mobile-link {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s, padding-left 0.2s var(--ease-out);
+}
+.nav__mobile-link:hover { color: var(--blue); padding-left: 8px; }
+.nav__mobile-link--cta { color: var(--blue); border-bottom: none; }
+
+/* ── Hero ── */
+.hero {
+  min-height: 100svh;
+  background: var(--dark);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--nav-h) + 60px) var(--pad) 100px;
+  overflow: hidden;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Subtle grid lines */
+.hero__bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Blue glow accent */
+.hero__bg::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 70%;
+  height: 80%;
+  background: radial-gradient(ellipse, rgba(26,86,232,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero__waveform {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding: 0 var(--pad);
+  opacity: 0.12;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-w);
+  width: 100%;
+  margin: 0 auto;
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: rgba(26,86,232,0.12);
+  border: 1px solid rgba(26,86,232,0.25);
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+}
+.hero__badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--blue);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.hero__headline {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.hero__headline-accent {
+  color: var(--blue);
+  display: inline-block;
+}
+
+.hero__sub {
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  color: rgba(255,255,255,0.6);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 72px;
+}
+
+.hero__stats {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 48px);
+  padding-top: 40px;
+  border-top: 1px solid var(--border-dark);
+  max-width: var(--max-w);
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hero__stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.hero__stat-plus {
+  font-size: 0.7em;
+  color: var(--blue);
+}
+.hero__stat-label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.04em;
+}
+.hero__stat-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border-dark);
+  flex-shrink: 0;
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.3);
+  animation: bobDown 2s ease-in-out infinite;
+  transition: color 0.2s;
+  z-index: 2;
+}
+.hero__scroll:hover { color: rgba(255,255,255,0.7); }
+
+@keyframes bobDown {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(5px); }
+}
+@media (prefers-reduced-motion: reduce) { .hero__scroll { animation: none; } }
+
+/* ── Services ── */
+.services {
+  padding: clamp(80px, 10vw, 120px) var(--pad);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.services__card {
+  background: var(--white);
+  padding: clamp(28px, 4vw, 44px);
+  transition: background 0.2s;
+  position: relative;
+}
+.services__card:hover { background: #FAFAFA; }
+
+.services__icon {
+  width: 48px;
+  height: 48px;
+  color: var(--blue);
+  margin-bottom: 20px;
+}
+.services__icon svg { width: 100%; height: 100%; }
+
+.services__card-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.services__card-desc {
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+
+.services__features {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+}
+.services__features li {
+  font-size: 0.8125rem;
+  color: var(--text-2);
+  padding-left: 16px;
+  position: relative;
+}
+.services__features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.services__cta {
+  margin-top: 48px;
+  text-align: center;
+}
+
+/* ── Why J&J ── */
+.why {
+  background: var(--dark);
+  padding: clamp(80px, 10vw, 120px) var(--pad);
+}
+.why__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(48px, 7vw, 100px);
+  align-items: start;
+}
+
+.why .section-eyebrow { color: var(--blue); }
+
+.why__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.why__title-accent { color: var(--blue); }
+
+.why__body {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.75;
+  margin-bottom: 32px;
+}
+
+.why .btn-outline {
+  color: #fff;
+  border-color: rgba(255,255,255,0.25);
+}
+.why .btn-outline:hover {
+  background: #fff;
+  color: var(--dark);
+  border-color: #fff;
+}
+
+.why__pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border-dark);
+  border: 1px solid var(--border-dark);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.why__pillar {
+  background: var(--dark-2);
+  padding: 28px;
+  transition: background 0.2s;
+}
+.why__pillar:hover { background: var(--dark-3); }
+
+.why__pillar-icon {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+.why__pillar-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.why__pillar-desc {
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+
+/* ── Gallery ── */
+.gallery {
+  padding: clamp(80px, 10vw, 120px) var(--pad);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 280px 280px;
+  gap: 12px;
+}
+
+.gallery__item { border-radius: 8px; overflow: hidden; position: relative; }
+.gallery__item--tall  { grid-row: span 2; }
+.gallery__item--wide  { grid-column: span 2; }
+
+.gallery__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-out);
+}
+.gallery__item:hover .gallery__placeholder { transform: scale(1.03); }
+
+.gallery__placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+}
+.gallery__placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%);
+}
+
+.gp--1 { background: linear-gradient(135deg, #0a0e1a 0%, #101828 40%, #0d1520 100%); }
+.gp--2 { background: linear-gradient(135deg, #0f1520 0%, #1a2035 50%, #0d1222 100%); }
+.gp--3 { background: linear-gradient(135deg, #12100a 0%, #1e1a0e 50%, #141208 100%); }
+.gp--4 { background: linear-gradient(135deg, #0d1218 0%, #0f1822 50%, #081018 100%); }
+.gp--5 { background: linear-gradient(135deg, #0e100d 0%, #141a12 50%, #0c100a 100%); }
+.gp--6 { background: linear-gradient(135deg, #12080f 0%, #1c0f18 50%, #0f0810 100%); }
+
+/* Waveform shapes inside placeholders */
+.gp--1::before {
+  background: linear-gradient(135deg, #0a0e1a 0%, #101828 40%, #0d1520 100%),
+    radial-gradient(ellipse at 30% 50%, rgba(26,86,232,0.2) 0%, transparent 60%);
+}
+.gp--2::before {
+  background: linear-gradient(135deg, #0f1520 0%, #1a2035 50%, #0d1222 100%),
+    radial-gradient(ellipse at 70% 60%, rgba(26,86,232,0.18) 0%, transparent 55%);
+}
+.gp--3::before {
+  background: linear-gradient(135deg, #12100a 0%, #1e1a0e 50%, #141208 100%),
+    radial-gradient(ellipse at 50% 40%, rgba(200,160,60,0.12) 0%, transparent 55%);
+}
+
+.gallery__label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.08);
+  padding: 5px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.gallery__note {
+  margin-top: 24px;
+  font-size: 0.8125rem;
+  color: var(--text-3);
+  text-align: center;
+}
+
+/* ── Contact ── */
+.contact {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: clamp(80px, 10vw, 120px) var(--pad);
+}
+.contact__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 4fr 6fr;
+  gap: clamp(48px, 7vw, 100px);
+  align-items: start;
+}
+
+.contact__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.contact__title-accent { color: var(--blue); }
+
+.contact__desc {
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.contact__info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.contact__info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.contact__info-label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.contact__info-value {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.contact__info-link { transition: color 0.2s; }
+.contact__info-link:hover { color: var(--blue); }
+
+/* ── Form ── */
+.form {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: clamp(24px, 4vw, 40px);
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form__field--full { margin-bottom: 20px; }
+
+.form__label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.form__label span { color: var(--blue); }
+
+.form__input {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--text);
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 11px 14px;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.form__input::placeholder { color: var(--text-3); }
+.form__input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-glow);
+}
+.form__input:invalid:not(:placeholder-shown) {
+  border-color: #E53935;
+}
+
+.form__select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.form__textarea { resize: vertical; min-height: 100px; }
+
+.form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 15px 28px;
+  border-radius: 6px;
+  transition: background 0.2s, transform 0.2s var(--ease-out), box-shadow 0.2s;
+  margin-bottom: 12px;
+}
+.form__submit:hover {
+  background: var(--blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26,86,232,0.3);
+}
+.form__submit:disabled {
+  opacity: 0.6;
+  transform: none;
+  cursor: not-allowed;
+}
+.form__submit-icon { font-size: 1.1em; transition: transform 0.2s; }
+.form__submit:hover .form__submit-icon { transform: translateX(3px); }
+
+.form__privacy {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  text-align: center;
+}
+
+.form__success {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: #ECFDF5;
+  border: 1px solid #6EE7B7;
+  border-radius: 6px;
+  color: #065F46;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* ── Footer ── */
+.footer {
+  background: var(--dark);
+  padding: 64px var(--pad) 32px;
+}
+.footer__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border-dark);
+  margin-bottom: 28px;
+}
+
+.footer__logo {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.footer__tagline {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.65;
+}
+
+.footer__nav-heading {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 16px;
+}
+.footer__nav ul, .footer__contact { display: flex; flex-direction: column; gap: 10px; }
+.footer__nav a, .footer__contact p, .footer__contact a {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.55);
+  transition: color 0.2s;
+}
+.footer__nav a:hover, .footer__contact a:hover { color: #fff; }
+
+.footer__bottom {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.footer__copy, .footer__built {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.25);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .why__inner { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 860px) {
+  .nav__links { display: none; }
+  .nav__cta   { display: none; }
+  .nav__toggle { display: flex; }
+
+  .services__grid { grid-template-columns: 1fr; }
+  .why__inner { grid-template-columns: 1fr; gap: 48px; }
+  .contact__inner { grid-template-columns: 1fr; }
+  .gallery__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+  .gallery__item--tall  { grid-row: span 1; }
+  .gallery__item--wide  { grid-column: span 2; }
+
+  .footer__inner { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .form__row { grid-template-columns: 1fr; }
+  .hero__stats { flex-wrap: wrap; gap: 20px 32px; }
+  .hero__stat-divider { display: none; }
+  .why__pillars { grid-template-columns: 1fr; }
+  .gallery__grid { grid-template-columns: 1fr; }
+  .gallery__item--wide { grid-column: span 1; }
+  .footer__inner { grid-template-columns: 1fr; gap: 32px; }
+  .footer__bottom { flex-direction: column; align-items: flex-start; }
+  .hero__headline { font-size: 2.1rem; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__logo" aria-label="J&J Sound home">
+        <span class="nav__logo-jj">J&amp;J</span>
+        <span class="nav__logo-sound">Sound</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <ul class="nav__links" role="list">
+          <li><a href="#services" class="nav__link">Services</a></li>
+          <li><a href="#gallery"  class="nav__link">Gallery</a></li>
+          <li><a href="#contact"  class="nav__link">Contact</a></li>
+          <li><a href="#contact"  class="nav__cta">Book a Show</a></li>
+        </ul>
+      </nav>
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <div class="nav__mobile" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Mobile menu">
+    <ul role="list">
+      <li><a href="#services" class="nav__mobile-link">Services</a></li>
+      <li><a href="#gallery"  class="nav__mobile-link">Gallery</a></li>
+      <li><a href="#contact"  class="nav__mobile-link">Contact</a></li>
+      <li><a href="#contact"  class="nav__mobile-link nav__mobile-link--cta">Book a Show</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__waveform">
+        <!-- SVG waveform bars generated by JS -->
+      </div>
+    </div>
+    <div class="hero__content">
+      <p class="hero__badge reveal-up">Long Island, NY</p>
+      <h1 class="hero__headline reveal-up">
+        Professional<br />
+        <span class="hero__headline-accent">Live Sound</span><br />
+        For Every Stage.
+      </h1>
+      <p class="hero__sub reveal-up">
+        J&amp;J Sound delivers full-service live audio for bands, weddings,
+        corporate events, and more — with our own professional PA and an
+        engineers who live for the mix.
+      </p>
+      <div class="hero__actions reveal-up">
+        <a href="#contact" class="btn-primary">Book a Show</a>
+        <a href="#services" class="btn-ghost">Our Services</a>
+      </div>
+    </div>
+    <div class="hero__stats reveal-up" aria-label="Quick stats">
+      <div class="hero__stat">
+        <span class="hero__stat-num">500<span class="hero__stat-plus">+</span></span>
+        <span class="hero__stat-label">Shows Mixed</span>
+      </div>
+      <div class="hero__stat-divider" aria-hidden="true"></div>
+      <div class="hero__stat">
+        <span class="hero__stat-num">10<span class="hero__stat-plus">+</span></span>
+        <span class="hero__stat-label">Years Experience</span>
+      </div>
+      <div class="hero__stat-divider" aria-hidden="true"></div>
+      <div class="hero__stat">
+        <span class="hero__stat-num">2</span>
+        <span class="hero__stat-label">Dedicated Engineers</span>
+      </div>
+    </div>
+    <a href="#services" class="hero__scroll" aria-label="Scroll to services">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M10 4v12M4 10l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-header reveal-up">
+      <p class="section-eyebrow">What We Do</p>
+      <h2 class="section-title">Full-Service Sound,<br />Start to Finish.</h2>
+      <p class="section-desc">
+        From load-in to last call, J&amp;J Sound handles every aspect of your audio.
+        No surprises, no subpar gear — just clean, powerful sound.
+      </p>
+    </div>
+
+    <div class="services__grid">
+
+      <div class="services__card reveal-up">
+        <div class="services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 34V24M16 38V18M24 40V8M32 38V18M40 34V24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="services__card-title">Live Band Mixing</h3>
+        <p class="services__card-desc">
+          Front-of-house mixing for bands of any genre and size. Rock, cover bands,
+          originals, acoustic sets — we make every instrument sit perfectly in the mix.
+        </p>
+        <ul class="services__features" aria-label="Included features">
+          <li>Full FOH mix engineering</li>
+          <li>Soundcheck included</li>
+          <li>In-show adjustments</li>
+          <li>All genres welcomed</li>
+        </ul>
+      </div>
+
+      <div class="services__card reveal-up">
+        <div class="services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="18" width="32" height="20" rx="3" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M16 18V14a8 8 0 0116 0v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="24" cy="28" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3 class="services__card-title">Events &amp; Ceremonies</h3>
+        <p class="services__card-desc">
+          Weddings, corporate events, private parties, and ceremonies. We keep the
+          audio polished and professional so you can focus on the moment.
+        </p>
+        <ul class="services__features" aria-label="Included features">
+          <li>Weddings &amp; receptions</li>
+          <li>Corporate events</li>
+          <li>DJ &amp; MC support</li>
+          <li>Speeches &amp; ceremonies</li>
+        </ul>
+      </div>
+
+      <div class="services__card reveal-up">
+        <div class="services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 36V20l12-8 12 8v16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="18" y="28" width="12" height="8" rx="1" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M8 36h32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="services__card-title">Professional PA System</h3>
+        <p class="services__card-desc">
+          We own and operate our own professional PA rig — no rental markup, no
+          mystery gear. Our system is maintained, dialed in, and ready for any venue.
+        </p>
+        <ul class="services__features" aria-label="Included features">
+          <li>Pro-grade speaker system</li>
+          <li>Subwoofers included</li>
+          <li>Consistent quality every time</li>
+          <li>Sized for your venue</li>
+        </ul>
+      </div>
+
+      <div class="services__card reveal-up">
+        <div class="services__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="14" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M24 14v10l6 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="services__card-title">Setup &amp; Breakdown</h3>
+        <p class="services__card-desc">
+          Full load-in, system setup, soundcheck, and complete teardown at the end
+          of the night. You focus on performing or hosting — we handle everything else.
+        </p>
+        <ul class="services__features" aria-label="Included features">
+          <li>Early load-in available</li>
+          <li>Full system setup</li>
+          <li>Soundcheck coordination</li>
+          <li>Complete post-show breakdown</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="services__cta reveal-up">
+      <a href="#contact" class="btn-primary">Get a Quote</a>
+    </div>
+  </section>
+
+  <!-- WHY J&J -->
+  <section class="why" aria-label="Why choose J&J Sound">
+    <div class="why__inner">
+      <div class="why__text">
+        <p class="section-eyebrow reveal-up">Why J&amp;J Sound</p>
+        <h2 class="why__title reveal-up">
+          The engineer and the gear,<br />
+          <span class="why__title-accent">under one roof.</span>
+        </h2>
+        <p class="why__body reveal-up">
+          A lot of companies piece together rentals and freelancers for each gig.
+          J&amp;J Sound is different. Our professional engineers work with our own
+          gear, every show. That means consistent results, faster setup, and
+          engineers who know the rig inside out.
+        </p>
+        <a href="#contact" class="btn-outline reveal-up">Start a Conversation</a>
+      </div>
+      <div class="why__pillars reveal-up" role="list">
+        <div class="why__pillar" role="listitem">
+          <span class="why__pillar-icon" aria-hidden="true">⚡</span>
+          <h3 class="why__pillar-title">Our Own Gear</h3>
+          <p class="why__pillar-desc">Professional PA we own and maintain — no third-party rental surprises.</p>
+        </div>
+        <div class="why__pillar" role="listitem">
+          <span class="why__pillar-icon" aria-hidden="true">🎚</span>
+          <h3 class="why__pillar-title">Dedicated Engineer</h3>
+          <p class="why__pillar-desc">Two experienced FOH engineers who are passionate about getting it right.</p>
+        </div>
+        <div class="why__pillar" role="listitem">
+          <span class="why__pillar-icon" aria-hidden="true">📍</span>
+          <h3 class="why__pillar-title">Long Island Local</h3>
+          <p class="why__pillar-desc">Based on Long Island, NY — familiar with local venues, promoters, and scenes.</p>
+        </div>
+        <div class="why__pillar" role="listitem">
+          <span class="why__pillar-icon" aria-hidden="true">🎯</span>
+          <h3 class="why__pillar-title">Any Size Event</h3>
+          <p class="why__pillar-desc">Bar gigs to big stages, intimate ceremonies to outdoor festivals.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="section-header reveal-up">
+      <p class="section-eyebrow">Our Work</p>
+      <h2 class="section-title">From the Stage.</h2>
+      <p class="section-desc">A look at the shows we've mixed and the stages we've set up on Long Island and beyond.</p>
+    </div>
+
+    <div class="gallery__grid">
+      <div class="gallery__item gallery__item--tall reveal-left"   aria-label="Live band performance photo placeholder">
+        <div class="gallery__placeholder gp--1">
+          <span class="gallery__label">Live Band</span>
+        </div>
+      </div>
+      <div class="gallery__item gallery__item--wide reveal-up"    aria-label="PA system setup photo placeholder">
+        <div class="gallery__placeholder gp--2">
+          <span class="gallery__label">PA Rig</span>
+        </div>
+      </div>
+      <div class="gallery__item gallery__item--square reveal-up"  aria-label="Sound engineer at console photo placeholder">
+        <div class="gallery__placeholder gp--3">
+          <span class="gallery__label">At the Board</span>
+        </div>
+      </div>
+      <div class="gallery__item gallery__item--square reveal-left" aria-label="Outdoor event photo placeholder">
+        <div class="gallery__placeholder gp--4">
+          <span class="gallery__label">Outdoor Event</span>
+        </div>
+      </div>
+      <div class="gallery__item gallery__item--wide reveal-right"  aria-label="Wedding ceremony audio photo placeholder">
+        <div class="gallery__placeholder gp--5">
+          <span class="gallery__label">Ceremony</span>
+        </div>
+      </div>
+      <div class="gallery__item gallery__item--tall reveal-right"  aria-label="Stage setup photo placeholder">
+        <div class="gallery__placeholder gp--6">
+          <span class="gallery__label">Stage Setup</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="gallery__note reveal-up">
+      Photos coming soon — follow us on Instagram for live updates from every show.
+    </p>
+  </section>
+
+  <!-- CONTACT / BOOKING -->
+  <section class="contact" id="contact">
+    <div class="contact__inner">
+      <div class="contact__left">
+        <p class="section-eyebrow reveal-up">Get in Touch</p>
+        <h2 class="contact__title reveal-up">
+          Let's make your<br />
+          <span class="contact__title-accent">event sound great.</span>
+        </h2>
+        <p class="contact__desc reveal-up">
+          Tell us about your event and we'll get back to you within 48 hours
+          with availability and pricing.
+        </p>
+        <div class="contact__info reveal-up">
+          <div class="contact__info-item">
+            <span class="contact__info-label">Location</span>
+            <span class="contact__info-value">Long Island, NY</span>
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-label">Email</span>
+            <a href="mailto:JJsoundNY@gmail.com" class="contact__info-value contact__info-link">JJsoundNY@gmail.com</a>
+          </div>
+          <div class="contact__info-item">
+            <span class="contact__info-label">Response time</span>
+            <span class="contact__info-value">Within 48 hours</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact__right reveal-up">
+        <form class="form" id="bookingForm" novalidate>
+          <div class="form__row">
+            <div class="form__field">
+              <label class="form__label" for="name">Your Name <span aria-hidden="true">*</span></label>
+              <input class="form__input" type="text" id="name" name="name" autocomplete="name" required placeholder="Jane Smith" />
+            </div>
+            <div class="form__field">
+              <label class="form__label" for="email">Email Address <span aria-hidden="true">*</span></label>
+              <input class="form__input" type="email" id="email" name="email" autocomplete="email" required placeholder="jane@example.com" />
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="form__field">
+              <label class="form__label" for="phone">Phone Number</label>
+              <input class="form__input" type="tel" id="phone" name="phone" autocomplete="tel" placeholder="(516) 555-0100" />
+            </div>
+            <div class="form__field">
+              <label class="form__label" for="eventType">Event Type <span aria-hidden="true">*</span></label>
+              <select class="form__input form__select" id="eventType" name="eventType" required>
+                <option value="" disabled selected>Select type…</option>
+                <option value="live-band">Live Band / Concert</option>
+                <option value="wedding">Wedding / Reception</option>
+                <option value="corporate">Corporate Event</option>
+                <option value="private">Private Party</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="form__field">
+              <label class="form__label" for="eventDate">Event Date</label>
+              <input class="form__input" type="date" id="eventDate" name="eventDate" />
+            </div>
+            <div class="form__field">
+              <label class="form__label" for="venue">Venue / Location</label>
+              <input class="form__input" type="text" id="venue" name="venue" placeholder="The Paramount, Huntington NY" />
+            </div>
+          </div>
+          <div class="form__field form__field--full">
+            <label class="form__label" for="message">Tell Us More</label>
+            <textarea class="form__input form__textarea" id="message" name="message" rows="4" placeholder="Band size, number of guests, any special requirements…"></textarea>
+          </div>
+          <button type="submit" class="btn-primary form__submit">
+            <span class="form__submit-text">Send Inquiry</span>
+            <span class="form__submit-icon" aria-hidden="true">→</span>
+          </button>
+          <p class="form__privacy">We'll never share your info. Privacy guaranteed.</p>
+          <div class="form__success" id="formSuccess" role="alert" aria-live="polite" hidden>
+            <strong>Message sent!</strong> We'll be in touch within 48 hours.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="#hero" class="footer__logo" aria-label="J&J Sound home">
+          <span class="nav__logo-jj">J&amp;J</span>
+          <span class="nav__logo-sound">Sound</span>
+        </a>
+        <p class="footer__tagline">Professional live sound engineering<br />on Long Island, NY.</p>
+      </div>
+      <nav class="footer__nav" aria-label="Footer navigation">
+        <h3 class="footer__nav-heading">Navigation</h3>
+        <ul role="list">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Book a Show</a></li>
+        </ul>
+      </nav>
+      <div class="footer__contact">
+        <h3 class="footer__nav-heading">Contact</h3>
+        <p><a href="mailto:JJsoundNY@gmail.com">JJsoundNY@gmail.com</a></p>
+        <p>Long Island, NY</p>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 J&amp;J Sound. All rights reserved.</p>
+      <p class="footer__built">Built for Long Island's live music scene.</p>
+    </div>
+  </footer>
+
+  <script>
+(function () {
+  'use strict';
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Waveform generator ──
+     Builds a row of SVG bars in the hero background that simulate
+     an audio waveform — purely decorative. */
+  (function buildWaveform() {
+    const container = document.querySelector('.hero__waveform');
+    if (!container) return;
+
+    const barCount = Math.floor(window.innerWidth / 8);
+    const frag = document.createDocumentFragment();
+
+    for (let i = 0; i < barCount; i++) {
+      const bar = document.createElement('div');
+      // Pseudo-random heights that look like a real waveform
+      const seed = Math.sin(i * 0.4) * 0.5 + Math.sin(i * 0.13) * 0.3 + Math.random() * 0.2;
+      const height = Math.max(4, Math.abs(seed) * 110);
+      bar.style.cssText = `
+        flex-shrink: 0;
+        width: 3px;
+        height: ${height}px;
+        background: rgba(26,86,232,0.6);
+        border-radius: 2px 2px 0 0;
+      `;
+      frag.appendChild(bar);
+    }
+    container.appendChild(frag);
+
+    // Animate bars subtly if motion is OK
+    if (!prefersReduced) {
+      let t = 0;
+      const bars = container.querySelectorAll('div');
+      function animateWave() {
+        t += 0.015;
+        bars.forEach((bar, i) => {
+          const wave = Math.sin(t + i * 0.3) * 0.25 + 0.75;
+          bar.style.transform = `scaleY(${wave})`;
+          bar.style.transformOrigin = 'bottom';
+        });
+        requestAnimationFrame(animateWave);
+      }
+      requestAnimationFrame(animateWave);
+    }
+  })();
+
+  /* ── Scroll reveal ── */
+  (function initReveal() {
+    const els = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(el => el.classList.add('visible'));
+      return;
+    }
+
+    // Stagger siblings in the same parent
+    const parents = new Set([...els].map(el => el.parentElement));
+    parents.forEach(parent => {
+      const siblings = [...parent.querySelectorAll('.reveal-up, .reveal-left, .reveal-right')];
+      siblings.forEach((el, i) => { el.dataset.delay = i * 90; });
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const delay = parseInt(entry.target.dataset.delay) || 0;
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+
+    els.forEach(el => io.observe(el));
+  })();
+
+  /* ── Nav: shadow on scroll + hide/show on scroll direction ── */
+  (function initNav() {
+    const nav = document.querySelector('.nav');
+    if (!nav) return;
+
+    let lastY = 0;
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        nav.classList.toggle('scrolled', y > 10);
+
+        if (!prefersReduced) {
+          if (y > 120 && y > lastY) {
+            nav.style.transform = 'translateY(-100%)';
+            nav.style.transition = 'transform 0.3s cubic-bezier(0.4,0,0.2,1)';
+          } else {
+            nav.style.transform = '';
+          }
+        }
+
+        lastY = Math.max(0, y);
+        ticking = false;
+      });
+      ticking = true;
+    }, { passive: true });
+  })();
+
+  /* ── Mobile nav ── */
+  (function initMobileNav() {
+    const toggle = document.querySelector('.nav__toggle');
+    const menu   = document.getElementById('mobileMenu');
+    if (!toggle || !menu) return;
+
+    function close() {
+      menu.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      menu.setAttribute('aria-hidden', String(!isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    menu.querySelectorAll('.nav__mobile-link').forEach(link => {
+      link.addEventListener('click', close);
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && menu.classList.contains('open')) close();
+    });
+  })();
+
+  /* ── Booking form: client-side validation + Formspree submission ── */
+  (function initForm() {
+    const form    = document.getElementById('bookingForm');
+    const success = document.getElementById('formSuccess');
+    if (!form) return;
+
+    // Formspree endpoint — sign up at formspree.io and replace REPLACE_ME with your form ID
+    const FORMSPREE_URL = 'https://formspree.io/f/mkoezpvb';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const required = form.querySelectorAll('[required]');
+      let valid = true;
+      required.forEach(field => {
+        field.classList.remove('form__input--error');
+        if (!field.value.trim()) {
+          field.classList.add('form__input--error');
+          valid = false;
+        }
+      });
+
+      if (!valid) {
+        const first = form.querySelector('.form__input--error');
+        if (first) first.focus();
+        return;
+      }
+
+      const btn = form.querySelector('.form__submit');
+      btn.disabled = true;
+      btn.querySelector('.form__submit-text').textContent = 'Sending…';
+
+      try {
+        const response = await fetch(FORMSPREE_URL, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          form.style.opacity = '0';
+          form.style.transition = 'opacity 0.3s';
+          setTimeout(() => {
+            form.hidden = true;
+            if (success) success.hidden = false;
+          }, 300);
+        } else {
+          btn.disabled = false;
+          btn.querySelector('.form__submit-text').textContent = 'Send Inquiry';
+          alert('Something went wrong. Please email us directly at JJsoundNY@gmail.com');
+        }
+      } catch {
+        btn.disabled = false;
+        btn.querySelector('.form__submit-text').textContent = 'Send Inquiry';
+        alert('Something went wrong. Please email us directly at JJsoundNY@gmail.com');
+      }
+    });
+  })();
+
+  /* ── Smooth scroll for anchor links ── */
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: prefersReduced ? 'instant' : 'smooth' });
+    });
+  });
+
+})();
+
+  </script>
+</body>
+</html>
